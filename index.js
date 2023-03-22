@@ -5,7 +5,7 @@ var stream = require('stream'),
     spawn = require('child_process').spawn;
 
 module.exports = getInfo;
-function getInfo(filePath, opts, cb) {
+function getInfo(filePath, opts, env, cb) {
   var params = [];
   params.push('-show_streams', '-print_format', 'json', filePath);
 
@@ -13,7 +13,7 @@ function getInfo(filePath, opts, cb) {
   var info;
   var stderr;
 
-  var ffprobe = spawn(opts.path, params);
+  var ffprobe = spawn(opts.path, params, { env });
   ffprobe.once('close', function (code) {
     if (!code) {
       d.resolve(info);
